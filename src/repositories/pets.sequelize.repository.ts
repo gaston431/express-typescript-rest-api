@@ -1,6 +1,7 @@
 import { Pet, PetQueryParams } from '../interfaces/pet.interface.js';
 import { Op } from 'sequelize';
 import { PetModel } from '../model/pets.sequelize.model.js';
+import { ShelterModel } from '../model/shelter.sequelize.model.js';
 
 
 export async function getPetsRepository(petQueryParams: PetQueryParams): Promise<Pet[]> {
@@ -18,15 +19,27 @@ export async function getPetsRepository(petQueryParams: PetQueryParams): Promise
         where: {
             [Op.and]: values,
         },
-        raw: true // Devuelve objetos planos directamente
+        // raw: true // Devuelve objetos planos directamente
+        include: [{
+            model: ShelterModel,
+            as: 'Shelter'
+        }]
     });
 
-    return pets;
+    return pets.map(pet => pet.get({ plain: true }) as Pet);
 }
 
 export async function getPetByIdRepository(id: string): Promise<Pet | undefined> {
-    const pet = await PetModel.findByPk(id, { raw: true });
-    return pet || undefined;
+    const pet = await PetModel.findByPk(id, {
+        // attributes: { 
+        //     exclude: ['shelter_id']
+        // },
+        include: [{
+            model: ShelterModel,
+            as: 'Shelter' // Debe coincidir exactamente con el alias definido en el modelo
+        }]
+    });
+    return pet ? (pet.get({ plain: true }) as Pet) : undefined;
 }
 
 export async function createPetRepository(petData: Omit<Pet, 'id'>): Promise<Pet> {

@@ -1,6 +1,7 @@
 import { sequelize } from '../config/db.sequelize.js';
 import { DataTypes, Model } from 'sequelize';
 import { Pet } from '../interfaces/pet.interface.js';
+import { ShelterModel } from './shelter.sequelize.model.js';
 
 // 1. Creamos una interfaz interna que omite el ID para la creación (opcional pero recomendado)
 interface PetCreationAttributes extends Omit<Pet, 'id'> {}
@@ -17,6 +18,7 @@ export class PetModel extends Model<Pet, PetCreationAttributes> implements Pet {
     declare public adoptionDate?: Date | null;
     declare public medicalRecord: Pet['medicalRecord'];
     declare public photo: string;
+    declare public shelter_id?: number | null;
 }
 
 PetModel.init(
@@ -31,6 +33,7 @@ PetModel.init(
     adoptionDate: { type: DataTypes.DATEONLY },
     medicalRecord: { type: DataTypes.JSON, allowNull: false },
     photo: { type: DataTypes.STRING, allowNull: false },
+    shelter_id: { type: DataTypes.INTEGER, allowNull: true, field: 'shelter_id' }
   },
   {
     sequelize,
@@ -38,6 +41,9 @@ PetModel.init(
     timestamps: false,
   }
 );
+
+ShelterModel.hasMany(PetModel, { foreignKey: 'shelter_id', as: 'pets' });
+PetModel.belongsTo(ShelterModel, { foreignKey: 'shelter_id', as: 'Shelter' });
 
 // const PetModel = sequelize.define(
 //   'Pet',

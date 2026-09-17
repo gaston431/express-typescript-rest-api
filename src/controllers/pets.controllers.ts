@@ -1,14 +1,8 @@
 import type { Request, Response } from 'express'
-import type { Pet } from '../interfaces/pet.interface.js'
+import type { Pet, PetQueryParams } from '../interfaces/pet.interface.js'
 // import { getPetByIdRepository, getPetsRepository, createPetRepository, updatePetRepository, adoptPetRepository, deletePetRepository } from '../repositories/pets.mysql.repository.js'
-import { getPetsRepository, getPetByIdRepository, createPetRepository, updatePetRepository, adoptPetRepository, deletePetRepository } from '../repositories/pets.squelize.repository.js'
+import { getPetsRepository, getPetByIdRepository, createPetRepository, updatePetRepository, adoptPetRepository, deletePetRepository } from '../repositories/pets.sequelize.repository.js'
 
-export type PetQueryParams = {
-    species?: string,
-    adopted?: 'true' | 'false',
-    minAge?: string,
-    maxAge?: string
-}
 
 export const getPets = async (
     req: Request<{}, unknown, {}, PetQueryParams>,

@@ -1,3 +1,5 @@
+import { Shelter } from './shelter.interface.js';
+
 export interface MedicalRecord {
   vaccinations: string[];
   weightKg: number;
@@ -15,6 +17,8 @@ export interface Pet {
   adoptionDate?: string | Date | null;
   medicalRecord: MedicalRecord; // Estructura JSON
   photo: string;
+  shelter_id?: number | null; // <-- Añadido
+  Shelter?: Shelter; 
 }
 
 export type PetQueryParams = {

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx tsc && node dist/index.js",
+    "db:seed": "npx tsx src/seeders/shelters.seed.sequelize.ts && npx tsx src/seeders/db.seed.ts",
     "build:watch": "npx tsc --watch",
     "serve": "nodemon dist/index.js",
     "dev": "concurrently \"npm run build:watch\" \"npm run serve\""

@@ -11,5 +11,6 @@ curl -X POST -i http://localhost:8000/pets \
     "intakeDate": "2026-09-15",
     "adoptionDate": "2026-09-15",
     "medicalRecord": {"weightKg": 5.9, "microchipId": "PER852", "vaccinations": ["Rabies", "Feline Distemper"]},
-    "photo": "kas.jpg"
+    "photo": "kas.jpg",
+    "shelter_id": 1
 }'

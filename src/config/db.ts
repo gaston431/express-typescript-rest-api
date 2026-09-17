@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-// import 'dotenv/config';
+import 'dotenv/config';
 
 // Creamos un pool de conexiones, que es más eficiente para servidores web
 export const pool = mysql.createPool({
